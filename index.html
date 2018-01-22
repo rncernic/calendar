@@ -1,30 +1,79 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Calendars</title>
-    <!--
-    <script type="text/javascript" src="js/calendar.js"></script>
-    -->
-    <script data-main="js/config" src="js/lib/require.js"></script>
-    <script>
-       require(['holidays'], function(h){
-           // code here
-            console.log(h.christmas(2017));
-        });
-    </script>
-    -->
-    <!--
-    <script type="text/javascript" src="js/lib/xlsx.core.min.js"></script>
-    <script type="text/javascript" src="js/lib/excelplus-2.5.min.js"></script>
-    <script type="text/javascript" src="js/calendar.js"></script>
-    <script type="text/javascript" src="js/teste.js"></script>
-    -->
-</head>
-<body>
-    <h1>Calendrial Calculations</h1>
-    <!--
-    <a href='#' onclick='Calendrical.downloadCSV({ filename: "calendarData.csv" });'>Download CSV</a>
-    -->
-</body>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Calendars</title>
+
+        <script type="text/javascript" src="js/lib/xlsx.core.min.js"></script>
+        <script type="text/javascript" src="js/lib/excelplus-2.5.min.js"></script>
+        <script data-main="js/config" src="js/lib/require.js"></script>
+
+        <script type="text/javascript">
+
+            var cD = [];
+            var sampleRDData = [-214193,-61387,25469,49217,171307,210155,253427,369740,400085,434355,
+                                452605,470160,473837,507850,524156,544676,567118,569477,601716,613424,
+                                626596,645554,664224,671401,694799,704424,708842,709409,709580,727274,
+                                728714,744313,764652];
+
+            require(['cgregorian', 'cfunctions', 'constants', 'gholidays', 'cjulian', 'cegyptian', 'carmenian'], function(g, f, k, h, j, e, a){
+
+                //console.log(k.license);
+                //console.log(g.gregorianFromFixed(h.christmas(2017)));
+                //console.log(k.DoW[f.dayOfWeekFromFixed(h.christmas(2017))]);
+                //console.log(j.fixedFromJulian([1013, 4, 19]));
+
+                var rdData = sampleRDData;
+                rdData.forEach (function(entry){
+                        cD.push({
+                        RD          : entry,
+                        DoW         : k.DoW[f.dayOfWeekFromFixed(entry)],
+                        JD          : j.jdFromFixed(entry),
+                        MJD         : j.mjdFromFixed(entry),
+                        Gregorian   : g.gregorianFromFixed(entry),
+                        Egyptian    : e.egyptianFromFixed(entry),
+                        Armenian    : a.armenianFromFixed(entry),
+                    });
+                });
+
+                //console.log(cD);
+
+                var ep = new ExcelPlus();
+                ep.createFile("Calendrical calc");
+                //ep.createSheet("book1")
+                ep.write({ "content":[ ["#","RD","DoW","JD","MJD","Gregorian","","","Egyptian","","","Armenian","",""] ] });
+                for (var i = 0; i < cD.length; i++){
+                    ep.write({ "sheet": "Calendrical calc", "cell": "A" + (i + 2), "content": (i + 1) });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "B" + (i + 2), "content": cD[i]["RD"] });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "C" + (i + 2), "content": cD[i]["DoW"] });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "D" + (i + 2), "content": cD[i]["JD"] });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "E" + (i + 2), "content": cD[i]["MJD"] });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "F" + (i + 2), "content": cD[i]["Gregorian"][0] });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "G" + (i + 2), "content": cD[i]["Gregorian"][1] });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "H" + (i + 2), "content": cD[i]["Gregorian"][2] });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "I" + (i + 2), "content": cD[i]["Egyptian"][0] });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "J" + (i + 2), "content": cD[i]["Egyptian"][1] });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "K" + (i + 2), "content": cD[i]["Egyptian"][2] });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "L" + (i + 2), "content": cD[i]["Armenian"][0] });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "M" + (i + 2), "content": cD[i]["Armenian"][1] });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "N" + (i + 2), "content": cD[i]["Armenian"][2] });
+                };
+                //ep.write({ "sheet":"Calendrical calc", "cell":"A2", "content": "A2" });
+                //ep.write({ "sheet":"Calendrical calc", "cell":"B2", "content": "B2" });
+                ep.saveAs("demo.xlsx");
+
+            });
+
+        </script>
+    </head>
+    
+    <body>
+        <h1>Calendrial Calculations</h1>
+        <!--
+        <a href='#' onclick='Calendrical.downloadCSV({ filename: "calendarData.csv" });'>Download CSV</a>
+        -->
+    </body>
+
 </html>
