@@ -6,7 +6,7 @@
 //   Gregorian holidays
 // ----------------------
 
-define('gholidays', ['cgregorian', 'constants'], function(c, k){
+define('gholidays', ['cgregorian', 'constants', 'cfunctions'], function(c, k, f){
     
     // Force strict mode
     'use strict';
@@ -45,9 +45,9 @@ define('gholidays', ['cgregorian', 'constants'], function(c, k){
     //
     var nthKday = function(n, k, g_date){
         if (n > 0) {
-            return 7 * n + c.kdayBefore(k, c.fixedFromGregorian(g_date));
+            return 7 * n + f.kdayBefore(k, c.fixedFromGregorian(g_date));
         } else {
-            return 7 * n +c.kdayAfter(k, c.fixedFromGregorian(g_date));
+            return 7 * n +f.kdayAfter(k, c.fixedFromGregorian(g_date));
         }
     }
     
