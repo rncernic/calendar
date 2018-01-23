@@ -18,7 +18,7 @@
                                 626596,645554,664224,671401,694799,704424,708842,709409,709580,727274,
                                 728714,744313,764652];
 
-            require(['cgregorian', 'cfunctions', 'constants', 'gholidays', 'cjulian', 'cegyptian', 'carmenian'], function(g, f, k, h, j, e, a){
+            require(['cgregorian', 'cfunctions', 'constants', 'gholidays', 'cjulian', 'cegyptian', 'carmenian', 'ciso'], function(g, f, k, h, j, e, a, i){
 
                 //console.log(k.license);
                 //console.log(g.gregorianFromFixed(h.christmas(2017)));
@@ -35,15 +35,16 @@
                         Gregorian   : g.gregorianFromFixed(entry),
                         Egyptian    : e.egyptianFromFixed(entry),
                         Armenian    : a.armenianFromFixed(entry),
+                        ISO         : i.isoFromFixed(entry),
                     });
                 });
 
-                //console.log(cD);
+                //console.log(i.isoLongYear(2004));
 
                 var ep = new ExcelPlus();
                 ep.createFile("Calendrical calc");
                 //ep.createSheet("book1")
-                ep.write({ "content":[ ["#","RD","DoW","JD","MJD","Gregorian","","","Egyptian","","","Armenian","",""] ] });
+                ep.write({ "content":[ ["#","RD","DoW","JD","MJD","Gregorian","","","Egyptian","","","Armenian","","","ISO","",""] ] });
                 for (var i = 0; i < cD.length; i++){
                     ep.write({ "sheet": "Calendrical calc", "cell": "A" + (i + 2), "content": (i + 1) });
                     ep.write({ "sheet": "Calendrical calc", "cell": "B" + (i + 2), "content": cD[i]["RD"] });
@@ -59,10 +60,13 @@
                     ep.write({ "sheet": "Calendrical calc", "cell": "L" + (i + 2), "content": cD[i]["Armenian"][0] });
                     ep.write({ "sheet": "Calendrical calc", "cell": "M" + (i + 2), "content": cD[i]["Armenian"][1] });
                     ep.write({ "sheet": "Calendrical calc", "cell": "N" + (i + 2), "content": cD[i]["Armenian"][2] });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "O" + (i + 2), "content": cD[i]["ISO"][0] });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "P" + (i + 2), "content": cD[i]["ISO"][1] });
+                    ep.write({ "sheet": "Calendrical calc", "cell": "Q" + (i + 2), "content": cD[i]["ISO"][2] });
                 };
                 //ep.write({ "sheet":"Calendrical calc", "cell":"A2", "content": "A2" });
                 //ep.write({ "sheet":"Calendrical calc", "cell":"B2", "content": "B2" });
-                ep.saveAs("demo.xlsx");
+                ep.saveAs("calendar.xlsx");
 
             });
 

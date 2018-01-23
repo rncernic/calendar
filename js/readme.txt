@@ -9,6 +9,28 @@ Dershowitx, N. and Reingold, E. M. Calendrical Calsculations, Third Edition,
 
 Version history:
 
+0.5 - 2018.01.25 (INTERNAL - Not Released)
+
+ - ISO calendar
+ - fixed a minor error in gholidays.js
+
+0.4 - 2017.06.26 (INTERNAL - Not Released)
+ 
+ - RequireJS implementation
+ - full refactoring
+
+0.3 - 2017.06.17 (INTERNAL - Not Released)
+
+ - Revealing Module pattern conversion
+ - License Apache 2.0
+ - RequireJS implementation (first steps)
+ 
+0.2 - 2017.03.28 (INTERNAL - Not Released)
+
+ - Export to CSV through web browser
+ - Function to check date validity for Julian, Modified Julian, Egyptian, Armenian and Gregorian
+ - Implemented Git control
+
 0.1 - 2017.03.25 (INTERNAL - Not Released)
 
  - Auxiliary math functions (gcd, lcm, sum and mod)
@@ -17,21 +39,5 @@ Version history:
  - Egyptian
  - Armenian
  - Gregorian
-
-0.2 - 2017.03.28 (INTERNAL - Not Released)
-
- - Export to CSV through web browser
- - Function to check date validity for Julian, Modified Julian, Egyptian, Armenian and Gregorian
-
-0.3 - 2017.06.17 (INTERNAL - Not Released)
-
- - Revealing Module pattern conversion
- - License Apache 2.0
- - RequireJS implementation (first steps)
  
- 0.4 - 2017.06.26 (INTERNAL - Not Released)
- 
- - RequireJS implementation
- - full refactoring
-
 --------------------------------------------------------------------------------*/
