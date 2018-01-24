@@ -259,7 +259,7 @@ var ccFunctions = {};
     }
     
     if (typeof module !== 'undefined' && module.exports) {
-        module.exports = ccConstants;
+        module.exports = ccFunctions;
       }
           
 })();

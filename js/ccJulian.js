@@ -1,23 +1,26 @@
-// cjulian.js
-   
+// ccJulian.js
+
+// Dependencies
+var ccConstants = ccConstants || require('./ccConstants');
+var ccFunctions = ccFunctions || require('./ccFunctions');
+
 // ----------
 //   Julian
 // ----------
 
-define('cjulian', ['constants', 'cfunctions'] , function(k, f) {
+var ccJulian = {};
 
+(function(){
     // Force strict mode
     'use strict';
 
-    // Variable to hold the API
-    var cj = {};
     //
     // Usage:
     //
     // Ref.: (1.4)
     //
-    var momentFromJD = function(jd){
-        return (jd + k.JD_EPOCH);
+    ccJulian.momentFromJD = function(jd){
+        return (jd + ccConstants.JD_EPOCH);
     }
 
     //
@@ -25,8 +28,8 @@ define('cjulian', ['constants', 'cfunctions'] , function(k, f) {
     //
     // Ref.: (1.5)
     //
-    var jdFromMoment = function(t){
-        return (t - k.JD_EPOCH);
+    ccJulian.jdFromMoment = function(t){
+        return (t - ccConstants.JD_EPOCH);
     }
 
     //
@@ -34,8 +37,8 @@ define('cjulian', ['constants', 'cfunctions'] , function(k, f) {
     //
     // Ref.: (1.10)
     //
-    var fixedFromJD = function(jd){
-        return (f.floor(momentFromJD(jd)));
+    ccJulian.fixedFromJD = function(jd){
+        return (ccFunctions.floor(momentFromJD(jd)));
     }
 
     //
@@ -43,7 +46,7 @@ define('cjulian', ['constants', 'cfunctions'] , function(k, f) {
     //
     // Ref.: (1.11)
     //
-    var jdFromFixed = function(date){
+    ccJulian.jdFromFixed = function(date){
         return (jdFromMoment(date));
     }
 
@@ -51,7 +54,7 @@ define('cjulian', ['constants', 'cfunctions'] , function(k, f) {
     //
     // Usage:
     //
-    var validJDDate = function(jdDate){
+    ccJulian.validJDDate = function(jdDate){
         return (jdDate === jdFromFixed(fixedFromJD(jdDate)));
     }
 
@@ -61,11 +64,11 @@ define('cjulian', ['constants', 'cfunctions'] , function(k, f) {
     //
     // Ref.: (3.1)
     //
-    var julianLeapYear = function(j_year){
+    ccJulian.julianLeapYear = function(j_year){
         if (j_year > 0) {
-            return (f.mod(j_year, 4) === 0);
+            return (ccFunctions.mod(j_year, 4) === 0);
         } else {
-            return (f.mod(j_year, 4) === 3);
+            return (ccFunctions.mod(j_year, 4) === 3);
         }
     }
 
@@ -75,7 +78,7 @@ define('cjulian', ['constants', 'cfunctions'] , function(k, f) {
     //
     // Ref.: (3.3)
     //
-    var fixedFromJulian = function(jdate){
+    ccJulian.fixedFromJulian = function(jdate){
         var j;
         var y = jdate[0];
         var m = jdate[1];
@@ -85,8 +88,8 @@ define('cjulian', ['constants', 'cfunctions'] , function(k, f) {
             y = y + 1;
         }
         
-        j = k.JULIAN_EPOCH - 1 + 365 * (y - 1) + f.floor((y - 1) / 4);
-        j = j + f.floor(1 / 12 * (367 * m - 362));
+        j = ccConstants.JULIAN_EPOCH - 1 + 365 * (y - 1) + ccFunctions.floor((y - 1) / 4);
+        j = j + ccFunctions.floor(1 / 12 * (367 * m - 362));
         
         if (m <= 2){
             j = j;
@@ -110,8 +113,8 @@ define('cjulian', ['constants', 'cfunctions'] , function(k, f) {
     //
     // Ref.: (1.7)
     //
-    var fixedFromMJD = function(mjd){
-        return (mjd + k.MJD_EPOCH);
+    ccJulian.fixedFromMJD = function(mjd){
+        return (mjd + ccConstants.MJD_EPOCH);
     }
 
     //
@@ -119,31 +122,20 @@ define('cjulian', ['constants', 'cfunctions'] , function(k, f) {
     //
     // Ref.: (1.8)
     //
-    var mjdFromFixed = function(date){
-        return (date - k.MJD_EPOCH);
+    ccJulian.mjdFromFixed = function(date){
+        return (date - ccConstants.MJD_EPOCH);
     }
 
     // Check validity of a MJD date
     //
     // Usage:
     //
-    var validMJDDate = function(mjdDate){
+    ccJulian.validMJDDate = function(mjdDate){
         return (mjdDate === mjdFromFixed(fixedFromMJD(mjdDate)));
     }
 
-    // Public API - functions, varaibles and constanst to be exposed
-        
-    cj.momentFromJD     = momentFromJD;
-    cj.jdFromMoment     = jdFromMoment;
-    cj.fixedFromJD      = fixedFromJD;
-    cj.jdFromFixed      = jdFromFixed;
-    cj.validJDDate      = validJDDate;
-    cj.fixedFromMJD     = fixedFromMJD;
-    cj.mjdFromFixed     = mjdFromFixed;
-    cj.validMJDDate     = validMJDDate;
-    cj.julianLeapYear   = julianLeapYear;
-    cj.fixedFromJulian  = fixedFromJulian;
-
-    return cj;
-    
-});
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = ccJulian;
+      }
+          
+})();
