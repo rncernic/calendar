@@ -38,7 +38,7 @@ var ccJulian = {};
     // Ref.: (1.10)
     //
     ccJulian.fixedFromJD = function(jd){
-        return (ccFunctions.floor(momentFromJD(jd)));
+        return (ccFunctions.floor(ccJulian.momentFromJD(jd)));
     }
 
     //
@@ -47,7 +47,7 @@ var ccJulian = {};
     // Ref.: (1.11)
     //
     ccJulian.jdFromFixed = function(date){
-        return (jdFromMoment(date));
+        return (ccJulian.jdFromMoment(date));
     }
 
     // Check validity of a JD date
@@ -55,7 +55,7 @@ var ccJulian = {};
     // Usage:
     //
     ccJulian.validJDDate = function(jdDate){
-        return (jdDate === jdFromFixed(fixedFromJD(jdDate)));
+        return (jdDate === ccJulian.jdFromFixed(ccJulian.fixedFromJD(jdDate)));
     }
 
     // Is a julian year leap?
@@ -93,7 +93,7 @@ var ccJulian = {};
         
         if (m <= 2){
             j = j;
-        } else if (julianLeapYear(y)) {
+        } else if (ccJulian.julianLeapYear(y)) {
             j = j - 1;
         } else {
             j = j - 2;
@@ -131,7 +131,7 @@ var ccJulian = {};
     // Usage:
     //
     ccJulian.validMJDDate = function(mjdDate){
-        return (mjdDate === mjdFromFixed(fixedFromMJD(mjdDate)));
+        return (mjdDate === ccJulian.mjdFromFixed(ccJulian.fixedFromMJD(mjdDate)));
     }
 
     if (typeof module !== 'undefined' && module.exports) {
