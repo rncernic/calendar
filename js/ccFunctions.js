@@ -1,15 +1,18 @@
-// cfunctions.js
+// ccFunctions.js
+
+// Dependencies
+var ccConstants = ccConstants || require('./ccConstants');
 
 // --------------------
 //   Common functions
 // --------------------
 
-define('cfunctions', ['constants'], function(k){
+var ccFunctions = {};
 
+(function(){
+    
     // Force strict mode
-    'use strict';    
- 
-    var f = {};
+    'use strict';
     
     // ***************************************************
     //   A U X I L I A R Y   M A T H   F U N C T I O N S
@@ -17,23 +20,23 @@ define('cfunctions', ['constants'], function(k){
     
     // Shortcuts to math functions. Easier to write and read
     
-    var PI      = Math.PI,
-        sin     = Math.sin,
-        cos     = Math.cos,
-        tan     = Math.tan,
-        asin    = Math.asin,
-        acos    = Math.acos,
-        atan    = Math.atan2,
-        pow     = Math.pow,
-        floor   = Math.floor,
-        rad     = PI / 180;
+    ccFunctions.PI      = Math.PI,
+    ccFunctions.sin     = Math.sin,
+    ccFunctions.cos     = Math.cos,
+    ccFunctions.tan     = Math.tan,
+    ccFunctions.asin    = Math.asin,
+    ccFunctions.acos    = Math.acos,
+    ccFunctions.atan    = Math.atan2,
+    ccFunctions.pow     = Math.pow,
+    ccFunctions.floor   = Math.floor,
+    ccFunctions.rad     = Math.PI / 180;
 
     // Sum
     //
     // Usage:
     // sum(2,3,2,1) -> 8
     //
-    var sum = function(){
+    ccFunctions.sum = function(){
         var x = 0;
         for (var i = arguments.length - 1; i >= 0; i--){
           x += arguments[i];
@@ -46,7 +49,7 @@ define('cfunctions', ['constants'], function(k){
     //
     // Usage:
     //
-    var gcd = function(a, b){
+    ccFunctions.gcd = function(a, b){
         if ( ! b) {
           return a;
         }
@@ -59,7 +62,7 @@ define('cfunctions', ['constants'], function(k){
     // lcm(10,15) -> 30
     // lcm( 3,15) -> 15
     //
-    var lcm = function(a, b){
+    ccFunctions.lcm = function(a, b){
         return a * b / gcd(a, b);
     }
 
@@ -69,21 +72,21 @@ define('cfunctions', ['constants'], function(k){
     //
     // Ref.: (1.15)
     //
-    var mod = function(x, y){
-        return x - y * floor(x / y);
+    ccFunctions.mod = function(x, y){
+        return x - y * Math.floor(x / y);
     }
 
     //
     //
     //
-    var amod = function(a, b){
-        return b + mod(a, -b);
+    ccFunctions.amod = function(a, b){
+        return b + ccFunctions.mod(a, -b);
     }
 
     //
     //
     //
-    var next = function(index, predicate){
+    ccFunctions.next = function(index, predicate){
         if (predicate(index)){
           return index;
         }
@@ -95,7 +98,7 @@ define('cfunctions', ['constants'], function(k){
     //
     //
     //
-    var final = function(index, predicate){
+    ccFunctions.final = function(index, predicate){
         if (! predicate(index)){
           return index - 1;
         }
@@ -107,7 +110,7 @@ define('cfunctions', ['constants'], function(k){
     //
     //
     //
-    var binarySearch = function(low, high, dir, condition){
+    ccFunctions.binarySearch = function(low, high, dir, condition){
         var mid = (low + high) / 2;
         if (dir(low, high)){
             return mid;
@@ -121,11 +124,11 @@ define('cfunctions', ['constants'], function(k){
     //
     //
     //
-    var invertAngular = function(func, y, low, high){
-        var precision = pow(10, -5);
+    ccFunctions.invertAngular = function(func, y, low, high){
+        var precision = Math.pow(10, -5);
         return binarySearch(low, high,
                             function(l, h) {return (h-l) <= precision;},
-                            function(x) {return mod(func(x) - y, 360) < 180}
+                            function(x) {return ccFunctions.mod(func(x) - y, 360) < 180}
                            );
     }
     
@@ -138,8 +141,8 @@ define('cfunctions', ['constants'], function(k){
     //
     // Ref.: (1.9)
     //
-    var fixedFromMoment = function(t){
-        return (floor(t));
+    ccFunctions.fixedFromMoment = function(t){
+        return (Math.floor(t));
     }
 
     //
@@ -147,8 +150,8 @@ define('cfunctions', ['constants'], function(k){
     //
     // Ref.: (1.16)
     //
-    var timeFromMoment = function(t){
-        return (mod(t, 1));
+    ccFunctions.timeFromMoment = function(t){
+        return (ccFunctions.mod(t, 1));
     }
 
     //
@@ -156,7 +159,7 @@ define('cfunctions', ['constants'], function(k){
     //
     // Ref.: (1.34)
     //
-    var timeFromClock = function(h, m, s){
+    ccFunctions.timeFromClock = function(h, m, s){
         return ((h + (m + s / 60) / 60) / 24);
     }
 
@@ -165,10 +168,10 @@ define('cfunctions', ['constants'], function(k){
     //
     // Ref.: (1.35)
     //
-    var clockFromTime = function(t){
-        var time   = timeFromMoment(t);
-        var hour   = floor(time * 24);
-        var minute = floor((time * 24 * 60) % 60);
+    ccFunctions.clockFromTime = function(t){
+        var time   = ccFunctions.timeFromMoment(t);
+        var hour   = Math.floor(time * 24);
+        var minute = Math.floor((time * 24 * 60) % 60);
         var second = (time * 24 * 60 * 60) % 60;
         return ([hour, minute, second]);
     }
@@ -178,9 +181,9 @@ define('cfunctions', ['constants'], function(k){
     //
     // Ref.: (1.37)
     //
-    var angleFromDegrees = function(a){
-        var d = floor(a);
-        var m = floor(60 * (a % 1));
+    ccFunctions.angleFromDegrees = function(a){
+        var d = Math.floor(a);
+        var m = Math.floor(60 * (a % 1));
         var s = (a * 60 * 60) % 60;
         return ([d, m, s]);
     }
@@ -196,7 +199,7 @@ define('cfunctions', ['constants'], function(k){
     //
     // Ref.: (1.1)
     //
-    var rd = function(t, epoch){
+    ccFunctions.rd = function(t, epoch){
         return (t - epoch);
     }
 
@@ -206,8 +209,8 @@ define('cfunctions', ['constants'], function(k){
     //
     // Ref.: (1.51)
     //
-    var dayOfWeekFromFixed = function(date){
-        return mod((date - k.SUNDAY), 7);
+    ccFunctions.dayOfWeekFromFixed = function(date){
+        return ccFunctions.mod((date - ccConstants.SUNDAY), 7);
     }
 
     //
@@ -215,8 +218,8 @@ define('cfunctions', ['constants'], function(k){
     //
     // Ref.: (1.53)
     //
-    var kdayOnOrBefore = function(k, date){
-        return (date - dayOfWeekFromFixed(date - k));
+    ccFunctions.kdayOnOrBefore = function(k, date){
+        return (date - ccFunctions.dayOfWeekFromFixed(date - k));
     }
 
     //
@@ -224,8 +227,8 @@ define('cfunctions', ['constants'], function(k){
     //
     // Ref.: (1.58)
     //
-    var kdayOnOrAfter = function(k, date){
-        return (kdayOnOrBefore(k, date+6));
+    ccFunctions.kdayOnOrAfter = function(k, date){
+        return (ccFunctions.kdayOnOrBefore(k, date+6));
     }
 
     //
@@ -233,8 +236,8 @@ define('cfunctions', ['constants'], function(k){
     //
     // Ref.: (1.59)
     //
-    var kdayNearest = function(k, date){
-        return (kdayOnOrBefore(k, date + 3));
+    ccFunctions.kdayNearest = function(k, date){
+        return (ccFunctions.kdayOnOrBefore(k, date + 3));
     }
 
     //
@@ -242,7 +245,7 @@ define('cfunctions', ['constants'], function(k){
     //
     // Ref.: (1.60)
     //
-    var kdayBefore = function(k, date){
+    ccFunctions.kdayBefore = function(k, date){
         return (kdayOnOrBefore(k, date - 1));
     }
 
@@ -251,46 +254,12 @@ define('cfunctions', ['constants'], function(k){
     //
     // Ref.: (1.61)
     //
-    var kdayAfter = function(k, date){
-        return (kdayOnOrBefore(k, date + 7));
+    ccFunctions.kdayAfter = function(k, date){
+        return (ccFunctions.kdayOnOrBefore(k, date + 7));
     }
-
-    // Public API - functions, varaibles and constanst to be exposed
-
-    f.PI                    = PI;
-    f.sin                   = sin;
-    f.cos                   = cos;
-    f.tan                   = tan;
-    f.asin                  = asin;
-    f.acos                  = acos;
-    f.atan                  = atan;
-    f.pow                   = pow;
-    f.floor                 = floor;
-    f.rad                   = rad;
-
-    f.sum                   = sum;
-    f.gcd                   = gcd;
-    f.lcm                   = lcm;
-    f.mod                   = mod;
-    f.amod                  = amod;
-    f.next                  = next;
-    f.final                 = final;
-    f.binarySearch          = binarySearch;
-    f.invertAngular         = invertAngular;
     
-    f.fixedFromMoment       = fixedFromMoment;
-    f.timeFromMoment        = timeFromMoment;
-    f.timeFromClock         = timeFromClock;
-    f.clockFromTime         = clockFromTime;
-    f.angleFromDegrees      = angleFromDegrees;
-    f.rd                    = rd;
-    f.dayOfWeekFromFixed    = dayOfWeekFromFixed;
-    f.kdayOnOrBefore        = kdayOnOrBefore;
-    f.kdayOnOrAfter         = kdayOnOrAfter;
-    f.kdayNearest           = kdayNearest;
-    f.kdayBefore            = kdayBefore;
-    f.kdayAfter             = kdayAfter;
-    
-    return f;
-    
-});
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = ccConstants;
+      }
+          
+})();

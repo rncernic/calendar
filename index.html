@@ -8,10 +8,12 @@
 
         <script type="text/javascript" src="js/lib/xlsx.core.min.js"></script>
         <script type="text/javascript" src="js/lib/excelplus-2.5.min.js"></script>
-        <script data-main="js/config" src="js/lib/require.js"></script>
+        <!-- The order of the scripts is important -->
+        <script type="text/javascript" src="js/ccConstants.js"></script>
+        <script type="text/javascript" src="js/ccFunctions.js"></script>
 
         <script type="text/javascript">
-
+            /*
             var cD = [];
             var sampleRDData = [-214193,-61387,25469,49217,171307,210155,253427,369740,400085,434355,
                                 452605,470160,473837,507850,524156,544676,567118,569477,601716,613424,
@@ -68,7 +70,9 @@
                 //ep.write({ "sheet":"Calendrical calc", "cell":"B2", "content": "B2" });
                 ep.saveAs("calendar.xlsx");
 
-            });
+            }); */
+
+            console.log(ccConstants.author);
 
         </script>
     </head>
