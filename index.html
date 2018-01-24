@@ -20,10 +20,13 @@
 
             require(['cgregorian', 'cfunctions', 'constants', 'gholidays', 'cjulian', 'cegyptian', 'carmenian', 'ciso'], function(g, f, k, h, j, e, a, i){
 
-                //console.log(k.license);
-                //console.log(g.gregorianFromFixed(h.christmas(2017)));
-                //console.log(k.DoW[f.dayOfWeekFromFixed(h.christmas(2017))]);
-                //console.log(j.fixedFromJulian([1013, 4, 19]));
+                console.log("License:");
+                console.log(k.license);
+                console.log("Christmas 2017");
+                console.log(g.gregorianFromFixed(h.christmas(2017)));
+                console.log(k.DoW[f.dayOfWeekFromFixed(h.christmas(2017))]);
+                console.log("fixedFromJulian - 1013/4/19");
+                console.log(j.fixedFromJulian([1013, 4, 19]));
 
                 var rdData = sampleRDData;
                 rdData.forEach (function(entry){
