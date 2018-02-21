@@ -1,3 +1,6 @@
 .DS_Store
 documentos
 .tmp
+node-modules
+.tmp
+.sass-cache
